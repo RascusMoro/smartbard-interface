@@ -11,7 +11,6 @@ import os.path
 
 
 
-
 #set page layout to wide and set page title
 im = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
 st.set_page_config(layout="wide", page_title="SmartBard", page_icon = im)
@@ -36,43 +35,38 @@ st.markdown(hide_img_fs, unsafe_allow_html=True)
 
 
 
-
 # Three columns to center
-col1,col2, col3 = st.columns([3,1,3])
+col1, col2, col3 = st.columns([1, 3, 1])
 
 # display the logo and description
-with col1:
+with col2:
 
     image1 = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
 
-    a = st.image(image1, width= 650)
+    a = st.image(image1, width= 700)
 
     image2 = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Header_Text.png')
 
-    b = st.image(image2, width= 550)
+    b = st.image(image2, width= 700)
 
 
-
-
-#with col3:
 
 
 
 #upload image
 
+    uploaded_file = st.file_uploader('Choose a file', key=2)
 
 
 #if image is uploaded: the upload window closes and the image is displayed
 
-col_picture, col_space, col_text = st.columns([3,1,3])
 
-uploaded_file = st.file_uploader('Choose a file', key=2, label_visibility="collapsed")
+col_picture, col_text = st.columns(2)
+
 
 if uploaded_file is not None:
     with col_picture:
-
-        st.image(uploaded_file)
-
+        st.image(uploaded_file, caption="test")
 
 # display the poem on the right side
     with col_text:
@@ -81,7 +75,7 @@ if uploaded_file is not None:
 Can be monitored, followed and tracked.
 When a clear biomarker
 Gets lighter or darker,
-We're better or worse—that's a fact!''', height=400, disabled=True, label_visibility='collapsed')
+We're better or worse—that's a fact!''', height=600, disabled=True, label_visibility='collapsed')
 
 
         # Add css to make text bigger
@@ -98,21 +92,11 @@ We're better or worse—that's a fact!''', height=400, disabled=True, label_visi
                         unsafe_allow_html=True,
                         )
 # if the image is uploaded: add a download button
-c = [0]
 if uploaded_file is not None:
-    # Open counter.txt
-    with open('counter.txt', 'r') as file:
-        # Check if text is 0
-        text = ???
-        # If 0, replace with 1 and rerun
-        if text == '0':
-
-            st.experimental_rerun()
-
 
     col6, col7, col8, col9, col10, col11, col12 = st.columns(7)
     with col6:
-        st.write('')
+            st.write('')
 
     with col7:
         st.write('')
@@ -145,8 +129,3 @@ if uploaded_file is not None:
 
     with col12:
         st.write('')
-
-# Open counter.txt
-with open('counter.txt') as file:
-    pass
-# Write 0 into file
