@@ -8,3 +8,7 @@ backgroundColor = '#013253' # White
 secondaryBackgroundColor = '#FFFFFF' # Lighter Blue
 
 textColor="#D0D0D0"
+
+[server]
+
+maxUploadSize = 20

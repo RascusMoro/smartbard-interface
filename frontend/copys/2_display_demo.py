@@ -35,11 +35,16 @@ st.markdown(hide_img_fs, unsafe_allow_html=True)
 
 
 
+if 'file' not in st.session_state:
+    st.session_state['file'] = None #or whatever default
+#user_select_value = st.session_state['file']
 
-uploaded_file = frontend.app.a_file()
+st.image(st.session_state['file'])
 
-@st.experimental_memo
-def b_file():
-    return uploaded_file
+#uploaded_file = frontend.app.a_file()
 
-st.image(b_file(), caption="test")
+#@st.experimental_memo
+#def b_file():
+#    return uploaded_file
+#
+#st.image(b_file(), caption="test")
