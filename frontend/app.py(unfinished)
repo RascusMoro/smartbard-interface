@@ -7,12 +7,14 @@ import pandas as pd
 from PIL import Image
 import pickle as pkle
 import os.path
+import webbrowser
+
 
 
 
 
 #set page layout to wide and set page title
-im = Image.open('/Users/sebastian/code/rcfeord/smartbard/streamlit/.streamlit/images/SmartBard_Logo_Updated.png')
+im = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
 st.set_page_config(layout="wide", page_title="SmartBard", page_icon = im)
 
 #Remove the Menu Button and Streamlit Icon
@@ -41,11 +43,11 @@ col1, col2, col3 = st.columns([1, 3, 1])
 # display the logo and description
 with col2:
 
-    image1 = Image.open('/Users/sebastian/code/rcfeord/smartbard/streamlit/.streamlit/images/SmartBard_Logo_Updated.png')
+    image1 = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
 
     a = st.image(image1, width= 700)
 
-    image2 = Image.open('/Users/sebastian/code/rcfeord/smartbard/streamlit/.streamlit/images/SmartBard_Header_Text.png')
+    image2 = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Header_Text.png')
 
     b = st.image(image2, width= 700)
 
@@ -55,7 +57,8 @@ with col2:
 
 #upload image
 
-    uploaded_file = st.file_uploader('Choose a file', key=2)
+    UPLOADED_FILE = st.file_uploader('Choose a file')
+
 
 
 #if image is uploaded: the upload window closes and the image is displayed
@@ -64,9 +67,16 @@ with col2:
 col_picture, col_text = st.columns(2)
 
 
-if uploaded_file is not None:
+
+if UPLOADED_FILE is not None:
+    @st.experimental_memo
+    def a_file():
+        file = UPLOADED_FILE
+        return file
+
     with col_picture:
-        st.image(uploaded_file, caption="test")
+        webbrowser.open('http://localhost:8501/display_demo')  # Go to example.com
+        st.image(UPLOADED_FILE, caption="test")
 
 # display the poem on the right side
     with col_text:
@@ -92,7 +102,7 @@ We're better or worse—that's a fact!''', height=600, disabled=True, label_visi
                         unsafe_allow_html=True,
                         )
 # if the image is uploaded: add a download button
-if uploaded_file is not None:
+if UPLOADED_FILE is not None:
 
     col6, col7, col8, col9, col10, col11, col12 = st.columns(7)
     with col6:
@@ -117,7 +127,7 @@ if uploaded_file is not None:
         st.download_button(
             label="Download Your Poem",
             data=csv,
-            file_name='placeholder_logo_smartbard.png',
+            file_name='/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/placeholder_logo_smartbard.png',
             #mime='text/csv',
         )
 
