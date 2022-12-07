@@ -11,7 +11,6 @@ import pyautogui
 
 
 
-
 #set page layout to wide and set page title
 im = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
 st.set_page_config(layout="wide", page_title="SmartBard", page_icon = im)
@@ -36,30 +35,25 @@ st.markdown(hide_img_fs, unsafe_allow_html=True)
 
 
 
-
 # Three columns to center
-col1,col2, col3 = st.columns([1,3,1])
+col1, col2, col3 = st.columns([1, 3, 1])
+
 
 # display the logo and description
 with col2:
 
     image1 = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
 
-    a = st.image(image1, width= 650)
+    a = st.image(image1, width= 700)
 
     image2 = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Header_Text.png')
 
-    b = st.image(image2, width= 550)
-
-
-
-
-
-
+    b = st.image(image2, width= 700)
 
 
 #upload image
 
+    uploaded_file = st.file_uploader('Choose a file', key=2)
 
 uploaded_file = st.file_uploader('Choose a file', key=2, label_visibility="collapsed")
 
@@ -81,7 +75,7 @@ if uploaded_file is not None:
 Can be monitored, followed and tracked.
 When a clear biomarker
 Gets lighter or darker,
-We're better or worse—that's a fact!''', height=400, disabled=True, label_visibility='collapsed')
+We're better or worse—that's a fact!''', height=600, disabled=True, label_visibility='collapsed')
 
 
         # Add css to make text bigger
@@ -101,11 +95,11 @@ We're better or worse—that's a fact!''', height=400, disabled=True, label_visi
 
 # if the image is uploaded: add a download button
 
-
+if uploaded_file is not None:
 
     col6, col7, col8, col9, col10, col11, col12 = st.columns(7)
     with col6:
-        st.write('')
+            st.write('')
 
     with col7:
         st.write('')
@@ -138,9 +132,6 @@ We're better or worse—that's a fact!''', height=400, disabled=True, label_visi
 
     with col12:
         st.write('')
-
-
-
 
 #if reload:
 #    if uploaded_file is not None:

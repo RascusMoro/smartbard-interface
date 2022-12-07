@@ -56,13 +56,9 @@ with col2:
 
 
 #upload image
-    if 'file' not in st.session_state:
-        st.session_state['file'] = None
-    st.session_state['file'] = st.file_uploader('Choose a file')
 
+    UPLOADED_FILE = st.file_uploader('Choose a file')
 
- #or whatever default
-#UPLOADED_FILE = st.session_state['file']
 
 
 #if image is uploaded: the upload window closes and the image is displayed
@@ -72,18 +68,18 @@ col_picture, col_text = st.columns(2)
 
 
 
-#if UPLOADED_FILE is not None:
- #   @st.experimental_memo
-  #  def a_file():
-   #     file = UPLOADED_FILE
-    #    return file
+if UPLOADED_FILE is not None:
+    @st.experimental_memo
+    def a_file():
+        file = UPLOADED_FILE
+        return file
 
-    #with col_picture:
-     #   webbrowser.open('http://localhost:8501/display_demo')  # Go to example.com
-      #  st.image(UPLOADED_FILE, caption="test")
+    with col_picture:
+        webbrowser.open('http://localhost:8501/display_demo')  # Go to example.com
+        st.image(UPLOADED_FILE, caption="test")
 
 # display the poem on the right side
-with col_text:
+    with col_text:
         st.text_area("test",
     '''Some diseases by which we're attacked
 Can be monitored, followed and tracked.
@@ -106,7 +102,7 @@ We're better or worse—that's a fact!''', height=600, disabled=True, label_visi
                         unsafe_allow_html=True,
                         )
 # if the image is uploaded: add a download button
-if st.session_state['file'] is not None:
+if UPLOADED_FILE is not None:
 
     col6, col7, col8, col9, col10, col11, col12 = st.columns(7)
     with col6:
@@ -143,5 +139,3 @@ if st.session_state['file'] is not None:
 
     with col12:
         st.write('')
-
-st.session_state['file'].sync()
