@@ -24,7 +24,7 @@ try:
 
 
         #set page layout to wide and set page title
-        im = Image.open('../frontend/images/SmartBard_Logo_Updated.png')
+        im = Image.open('./images/SmartBard_Logo_Updated.png')
         #im = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
         st.set_page_config(layout="centered", page_title="SmartBard", page_icon = im)
 
@@ -56,11 +56,11 @@ try:
 # display the logo and description
         #with col2:
 
-        image1 = Image.open('../frontend/images/SmartBard_Logo_Updated.png')
+        image1 = Image.open('./images/SmartBard_Logo_Updated.png')
 
         a = st.image(image1, width= 700)
 
-        image2 = Image.open('../frontend/images/SmartBard_Header_Text.png')
+        image2 = Image.open('./images/SmartBard_Header_Text.png')
 
         b = st.image(image2, width= 700)
 
@@ -90,7 +90,7 @@ try:
 
 
         #set page layout to wide and set page title
-        im = Image.open('../frontend/images/SmartBard_Logo_Updated.png')
+        im = Image.open('./images/SmartBard_Logo_Updated.png')
         st.set_page_config(layout="wide", page_title="SmartBard", page_icon = im)
 
         #Remove the Menu Button and Streamlit Icon
