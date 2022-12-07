@@ -1,154 +1,163 @@
-#importing packages
-
 import streamlit as st
-import streamlit.components.v1 as components
+import shutil
+from pathlib import Path
+from tempfile import NamedTemporaryFile
+import os
+import requests
 import numpy as np
 import pandas as pd
 from PIL import Image
 import pickle as pkle
-import os.path
-import pyautogui
+import streamlit.components.v1 as components
 
 
+img_path = Path(Path.cwd(), 'img_tmp')
 
-#set page layout to wide and set page title
-im = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
-st.set_page_config(layout="wide", page_title="SmartBard", page_icon = im)
+state = os.getenv('STATE')
+if state == None:
+    os.environ['STATE'] = (state := 'home')
 
-#Remove the Menu Button and Streamlit Icon
-hide_default_format = """
-       <style>
-    #MainMenu {visibility: visible; }
-       footer {visibility: hidden;}
-       </style>
-       """
-st.markdown(hide_default_format, unsafe_allow_html=True)
+try:
+    if state == 'home':
 
-# hide fullsize button
-hide_img_fs = '''
-    <style>
-    button[title="View fullscreen"]{
-        visibility: hidden;}
-    </style>
-    '''
-st.markdown(hide_img_fs, unsafe_allow_html=True)
+        ############## ⬇️ HOME PAGE GOES HERE ⬇️ ###############
 
 
+        #set page layout to wide and set page title
+        im = Image.open('../frontend/images/SmartBard_Logo_Updated.png')
+        #im = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
+        st.set_page_config(layout="centered", page_title="SmartBard", page_icon = im)
 
-# Three columns to center
-col1, col2, col3 = st.columns([1, 3, 1])
+        #Remove the Menu Button and Streamlit Icon
+        hide_default_format = """
+            <style>
+            #MainMenu {visibility: visible; }
+            footer {visibility: hidden;}
+            </style>
+            """
+        st.markdown(hide_default_format, unsafe_allow_html=True)
 
+        # hide fullsize button
+        hide_img_fs = '''
+            <style>
+            button[title="View fullscreen"]{
+                visibility: hidden;}
+            </style>
+            '''
+        st.markdown(hide_img_fs, unsafe_allow_html=True)
+
+
+        # Logo and other content here
+        # Three columns to center
+        #col1, col2, col3 = st.columns(3)
+
+        #with col1: ""
 
 # display the logo and description
-with col2:
+        #with col2:
 
-    image1 = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
+        image1 = Image.open('../frontend/images/SmartBard_Logo_Updated.png')
 
-    a = st.image(image1, width= 700)
+        a = st.image(image1, width= 700)
 
-    image2 = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Header_Text.png')
+        image2 = Image.open('../frontend/images/SmartBard_Header_Text.png')
 
-    b = st.image(image2, width= 700)
+        b = st.image(image2, width= 700)
 
-
-#upload image
-
-    uploaded_file = st.file_uploader('Choose a file', key=2)
-
-uploaded_file = st.file_uploader('Choose a file', key=2, label_visibility="collapsed")
-
-#if image is uploaded: the image is displayed on the left
-
-col_picture, col_text = st.columns(2)
+        #with col3: ""
 
 
-if uploaded_file is not None:
-    with col_picture:
-        #pyautogui.hotkey('f5')
-        st.image(uploaded_file)
+        if image := st.file_uploader('', key=2, label_visibility='collapsed'):
+            col_left1, col_left2, col_left3, col_left4, col_left5, col_center, col_right1, col_right2, col_right3, col_right4, col_right5 = st.columns([1,1,1,1,1,3,1,1,1,1,1])
+
+            with col_center:
+                st.image(image)
+
+                suffix = Path(image.name).suffix
+                with NamedTemporaryFile(delete=False, suffix=suffix, dir=img_path) as tmp:
+                    shutil.copyfileobj(image, tmp)
+                    tmp_path = Path(tmp.name)
+                    os.environ['IMG'] = str(tmp_path)
+            #with col_left5:
+                if st.button('Generate limerick'):
+                        os.environ['STATE'] = (state := 'subpage')
+                        st.experimental_rerun()
+
+    else:
+        image = os.getenv('IMG')
+
+        ############## ⬇️ SECOND PAGE GOES HERE ⬇️ ###############
 
 
-# display the poem on the right side
-    with col_text:
-        st.text_area("test",
-    '''Some diseases by which we're attacked
-Can be monitored, followed and tracked.
-When a clear biomarker
-Gets lighter or darker,
-We're better or worse—that's a fact!''', height=600, disabled=True, label_visibility='collapsed')
+        #set page layout to wide and set page title
+        im = Image.open('../frontend/images/SmartBard_Logo_Updated.png')
+        st.set_page_config(layout="wide", page_title="SmartBard", page_icon = im)
+
+        #Remove the Menu Button and Streamlit Icon
+        hide_default_format = """
+            <style>
+            #MainMenu {visibility: visible; }
+            footer {visibility: hidden;}
+            </style>
+            """
+        st.markdown(hide_default_format, unsafe_allow_html=True)
+
+        # hide fullsize button
+        hide_img_fs = '''
+            <style>
+            button[title="View fullscreen"]{
+                visibility: hidden;}
+            </style>
+            '''
+        st.markdown(hide_img_fs, unsafe_allow_html=True)
 
 
-        # Add css to make text bigger
-        st.markdown(
-                        """
-                        <style>
-
-                        textarea {
-                            font-size: 40px !important;
-                            font-family: 'Brush Script MT' !important;
-                        }
-                        </style>
-                        """,
-                        unsafe_allow_html=True,
-                        )
 
 
-# if the image is uploaded: add a download button
+        col_picture, col_text = st.columns(2)
+        rcol_left1, rcol_left2, rcol_left3, rcol_left4, rcol_left5, rcol_center, rcol_right1, rcol_right2, rcol_right3, rcol_right4, rcol_right5, = st.columns([1,1,1,1,1,3,1,1,1,1,1])
 
-if uploaded_file is not None:
 
-    col6, col7, col8, col9, col10, col11, col12 = st.columns(7)
-    with col6:
-            st.write('')
+        if image is not None:
+                with col_picture:
+                    #pyautogui.hotkey('f5')
+                    st.image(image, width=600)
 
-    with col7:
-        st.write('')
+                with col_text:
+                        st.text_area("test",
+                    '''Some diseases by which we're attacked
+                Can be monitored, followed and tracked.
+                When a clear biomarker
+                Gets lighter or darker,
+                We're better or worse—that's a fact!''', height=600, disabled=True, label_visibility='collapsed')
 
-    with col8:
-        st.write('')
+# Add css to make text bigger
+                st.markdown(
+                            """
+                            <style>
 
-    with col9:
-        df = pd.DataFrame(["test"])
+                            textarea {
+                                font-size: 40px !important;
+                                font-family: 'Brush Script MT' !important;
+                            }
+                            </style>
+                            """,
+                            unsafe_allow_html=True,
+                            )
 
-        @st.cache
-        def convert_df(df):
-            #IMPORTANT: Cache the conversion to prevent computation on every rerun
-            return df.to_csv().encode('utf-8')
 
-        csv = convert_df(df)
-            #Download
-        st.download_button(
-            label="Download Your Poem",
-            data=csv,
-            file_name='/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/placeholder_logo_smartbard.png',
-            #mime='text/csv',
-        )
 
-    with col10:
-        st.write('')
 
-    with col11:
-        st.write('')
 
-    with col12:
-        st.write('')
+        with rcol_center:
+            if st.button('Generate another limerick'):
+                os.environ['STATE'] = (state := 'home')
+                st.experimental_rerun()
 
-#if reload:
-#    if uploaded_file is not None:
-#        # Open counter.txt
-#        with open('counter.txt', 'r') as file:
-#            # Check if text is 0
-#            #text = ???
-#            # If 0, replace with 1 and rerun
-#            if file == '0':
-#                with open('counter.txt', 'wb') as file:
-#                    file.write('1')
-#st.write(st.experimental_rerun())
-#
-#
-## Open counter.txt
-#with open('counter.txt') as file:
-#    if file == '1':
-#         with open('counter.txt', 'wb') as file:
-#                file.write('0')
-## Write 0 into file
+except Exception as e:
+    os.environ['STATE'] = 'home'
+    try:
+        st.experimental_rerun()
+    except:
+        st.exception(e)
+        st.error('A fatal error has occurred. Please reload the page.', icon="😱")
