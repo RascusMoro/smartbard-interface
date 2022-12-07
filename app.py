@@ -11,7 +11,8 @@ import pickle as pkle
 import streamlit.components.v1 as components
 
 
-img_path = Path(Path.cwd(), 'img_tmp')
+# img_path = Path(Path.cwd(), 'img_tmp')
+img_path = '/app/smartbard-api/img_tmp'
 
 state = os.getenv('STATE')
 if state == None:
@@ -90,7 +91,7 @@ try:
 
 
         #set page layout to wide and set page title
-        im = Image.open('./images/SmartBard_Logo_Updated.png')
+        im = Image.open('/app/smartbard-api/SmartBard_Logo_Updated.png')
         st.set_page_config(layout="wide", page_title="SmartBard", page_icon = im)
 
         #Remove the Menu Button and Streamlit Icon
