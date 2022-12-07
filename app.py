@@ -9,10 +9,12 @@ import pandas as pd
 from PIL import Image
 import pickle as pkle
 import streamlit.components.v1 as components
+import cv2
 
 
 # img_path = Path(Path.cwd(), 'img_tmp')
-img_path = '/app/smartbard-api/img_tmp'
+# img_path = '/app/smartbard-api/img_tmp'
+img_path = 'img_tmp'
 
 state = os.getenv('STATE')
 if state == None:
@@ -25,7 +27,8 @@ try:
 
 
         #set page layout to wide and set page title
-        im = Image.open('/app/smartbard-api/SmartBard_Logo_Updated.png')
+        # im = Image.open('/app/smartbard-api/SmartBard_Logo_Updated.png')
+        im = Image.open('SmartBard_Logo_Updated.png')
         #im = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
         st.set_page_config(layout="centered", page_title="SmartBard", page_icon = im)
 
@@ -57,11 +60,14 @@ try:
 # display the logo and description
         #with col2:
 
-        image1 = Image.open('/app/smartbard-api/SmartBard_Logo_Updated.png')
+        # image1 = Image.open('/app/smartbard-api/SmartBard_Logo_Updated.png')
+        image1 = Image.open('SmartBard_Logo_Updated.png')
 
         a = st.image(image1, width= 700)
 
-        image2 = Image.open('/app/smartbard-api/SmartBard_Header_Text.png')
+        # image2 = Image.open('/app/smartbard-api/SmartBard_Header_Text.png')
+        image2 = Image.open('SmartBard_Header_Text.png')
+
 
         b = st.image(image2, width= 700)
 
@@ -91,7 +97,8 @@ try:
 
 
         #set page layout to wide and set page title
-        im = Image.open('/app/smartbard-api/SmartBard_Logo_Updated.png')
+        # im = Image.open('/app/smartbard-api/SmartBard_Logo_Updated.png')
+        im = Image.open('SmartBard_Logo_Updated.png')
         st.set_page_config(layout="wide", page_title="SmartBard", page_icon = im)
 
         #Remove the Menu Button and Streamlit Icon
@@ -120,6 +127,7 @@ try:
 
 
         if image is not None:
+                # im = cv2.imread(image)
                 with col_picture:
                     #pyautogui.hotkey('f5')
                     st.image(image, width=600)
@@ -130,7 +138,7 @@ try:
                 Can be monitored, followed and tracked.
                 When a clear biomarker
                 Gets lighter or darker,
-                We're better or worse—that's a fact!''', height=np.shape(np.array(image))[0], disabled=True, label_visibility='collapsed')
+                We're better or worse—that's a fact!''', height=350, disabled=True, label_visibility='collapsed')
 
 # Add css to make text bigger
                 st.markdown(
