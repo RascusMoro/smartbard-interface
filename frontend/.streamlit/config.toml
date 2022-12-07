@@ -8,3 +8,15 @@ backgroundColor = '#013253' # White
 secondaryBackgroundColor = '#FFFFFF' # Lighter Blue
 
 textColor="#D0D0D0"
+
+[server]
+
+maxUploadSize = 20
+
+runOnSave = true
+
+[client]
+
+# Whether to enable st.cache.
+# Default: true
+caching = true
