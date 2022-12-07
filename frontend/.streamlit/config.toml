@@ -1,7 +1,7 @@
 
 [theme] # You have to add this line
 
-primaryColor = '#F7DBF0' # Bright Orange
+primaryColor = '#01A7DF' # Bright Orange
 
 backgroundColor = '#013253' # White
 
@@ -12,11 +12,3 @@ textColor="#D0D0D0"
 [server]
 
 maxUploadSize = 20
-
-runOnSave = true
-
-[client]
-
-# Whether to enable st.cache.
-# Default: true
-caching = true
