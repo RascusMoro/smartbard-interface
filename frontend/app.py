@@ -56,11 +56,11 @@ try:
 # display the logo and description
         #with col2:
 
-        image1 = Image.open('/app/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
+        image1 = Image.open('/app/smartbard-api/frontend/SmartBard_Logo_Updated.png')
 
         a = st.image(image1, width= 700)
 
-        image2 = Image.open('/app/smartbard-api/frontend/images/SmartBard_Header_Text.png')
+        image2 = Image.open('/app/smartbard-api/frontend/SmartBard_Header_Text.png')
 
         b = st.image(image2, width= 700)
 
