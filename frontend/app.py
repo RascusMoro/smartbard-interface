@@ -7,7 +7,7 @@ import pandas as pd
 from PIL import Image
 import pickle as pkle
 import os.path
-
+import pyautogui
 
 
 
@@ -38,10 +38,10 @@ st.markdown(hide_img_fs, unsafe_allow_html=True)
 
 
 # Three columns to center
-col1,col2, col3 = st.columns([3,1,3])
+col1,col2, col3 = st.columns([1,3,1])
 
 # display the logo and description
-with col1:
+with col2:
 
     image1 = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
 
@@ -54,23 +54,23 @@ with col1:
 
 
 
-#with col3:
+
 
 
 
 #upload image
 
 
-
-#if image is uploaded: the upload window closes and the image is displayed
-
-col_picture, col_space, col_text = st.columns([3,1,3])
-
 uploaded_file = st.file_uploader('Choose a file', key=2, label_visibility="collapsed")
+
+#if image is uploaded: the image is displayed on the left
+
+col_picture, col_text = st.columns(2)
+
 
 if uploaded_file is not None:
     with col_picture:
-
+        #pyautogui.hotkey('f5')
         st.image(uploaded_file)
 
 
@@ -97,17 +97,10 @@ We're better or worse—that's a fact!''', height=400, disabled=True, label_visi
                         """,
                         unsafe_allow_html=True,
                         )
-# if the image is uploaded: add a download button
-c = [0]
-if uploaded_file is not None:
-    # Open counter.txt
-    with open('counter.txt', 'r') as file:
-        # Check if text is 0
-        text = ???
-        # If 0, replace with 1 and rerun
-        if text == '0':
 
-            st.experimental_rerun()
+
+# if the image is uploaded: add a download button
+
 
 
     col6, col7, col8, col9, col10, col11, col12 = st.columns(7)
@@ -146,7 +139,25 @@ if uploaded_file is not None:
     with col12:
         st.write('')
 
-# Open counter.txt
-with open('counter.txt') as file:
-    pass
-# Write 0 into file
+
+
+
+#if reload:
+#    if uploaded_file is not None:
+#        # Open counter.txt
+#        with open('counter.txt', 'r') as file:
+#            # Check if text is 0
+#            #text = ???
+#            # If 0, replace with 1 and rerun
+#            if file == '0':
+#                with open('counter.txt', 'wb') as file:
+#                    file.write('1')
+#st.write(st.experimental_rerun())
+#
+#
+## Open counter.txt
+#with open('counter.txt') as file:
+#    if file == '1':
+#         with open('counter.txt', 'wb') as file:
+#                file.write('0')
+## Write 0 into file
