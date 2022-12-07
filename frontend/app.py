@@ -24,7 +24,7 @@ try:
 
 
         #set page layout to wide and set page title
-        im = Image.open('SmartBard_Logo_Updated.png')
+        im = Image.open('/app/smartbard-api/frontend/SmartBard_Logo_Updated.png')
         #im = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
         st.set_page_config(layout="centered", page_title="SmartBard", page_icon = im)
 
