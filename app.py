@@ -130,7 +130,7 @@ try:
                 Can be monitored, followed and tracked.
                 When a clear biomarker
                 Gets lighter or darker,
-                We're better or worse—that's a fact!''', height=600, disabled=True, label_visibility='collapsed')
+                We're better or worse—that's a fact!''', height=np.array(image).shape[0], disabled=True, label_visibility='collapsed')
 
 # Add css to make text bigger
                 st.markdown(
