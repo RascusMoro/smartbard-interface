@@ -86,7 +86,9 @@ try:
                     tmp_path = Path(tmp.name)
                     os.environ['IMG'] = str(tmp_path)
 
-            button_col_left1, button_col_left2, button_col_left3, button_col_left4, button_col_left5, button_col_center, button_col_right1, button_col_right2, button_col_right3, button_col_right4, button_col_right5 = st.columns([1,1,1,1,1,10,1,1,1,1,1])
+                st.write(" ")
+                st.write(" ")
+            button_col_left1, button_col_left2, button_col_left3, button_col_left4, button_col_left5, button_col_center, button_col_right1, button_col_right2, button_col_right3, button_col_right4, button_col_right5 = st.columns([1,1,1,1,1,8,1,1,1,1,1])
 
             with button_col_center:
                 if st.button('Generate limerick'):
@@ -135,13 +137,10 @@ try:
                     #pyautogui.hotkey('f5')
                     st.image(image, width=600)
 
+
                 with col_text:
                         st.text(
-                    '''Some diseases by which we're attacked
-                Can be monitored, followed and tracked.
-                When a clear biomarker
-                Gets lighter or darker,
-                We're better or worse—that's a fact!''')
+                    '''Some diseases by which we're attacked \nCan be monitored, followed and tracked. \nWhen a clear biomarker \nGets lighter or darker, \nWe're better or worse—that's a fact!''')
 
 # Add css to make text bigger
                 st.markdown(
@@ -149,7 +148,7 @@ try:
                             <style>
 
                             text {
-                                font-size: 40px !important;
+                                font-size: 80px !important;
                                 font-family: 'Brush Script MT' !important;
                             }
                             </style>
@@ -162,6 +161,8 @@ try:
 
 
         with rcol_center:
+            st.write(" ")
+            st.write(" ")
             if st.button('Generate another limerick'):
                 os.environ['STATE'] = (state := 'home')
                 st.experimental_rerun()
@@ -172,12 +173,21 @@ div.stButton > button:first-child {
     background-color: #fccf03;
     color:#012C49;
     font-family: Helvetica;
+    width: 300px;
+    height: 40px;
 }
 div.stButton > button:hover {
     background-color: #fccf03;
     color:#006CC3;
     font-family: sans-serif
     }
+
+div.stText {
+    text-align: center;
+    font-size: 300px !important;
+
+
+}
 </style>""", unsafe_allow_html=True)
 
 
