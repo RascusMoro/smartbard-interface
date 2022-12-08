@@ -4,13 +4,16 @@ from pathlib import Path
 from tempfile import NamedTemporaryFile
 import os
 import requests
-# import numpy as np
-# import pandas as pd
+import numpy as np
+import pandas as pd
 from PIL import Image
+import pickle as pkle
+import streamlit.components.v1 as components
+
+
 
 # img_path = Path(Path.cwd(), 'img_tmp')
 # img_path = '/app/smartbard-api/img_tmp'
-assets_path = 'assets'
 img_path = 'img_tmp'
 
 state = os.getenv('STATE')
@@ -24,7 +27,9 @@ try:
 
 
         #set page layout to wide and set page title
-        im = Image.open(Path(assets_path, 'SmartBard_Logo_Updated.png'))
+        # im = Image.open('/app/smartbard-api/SmartBard_Logo_Updated.png')
+        im = Image.open('SmartBard_Logo_Updated.png')
+        #im = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
         st.set_page_config(layout="centered", page_title="SmartBard", page_icon = im)
 
         #Remove the Menu Button and Streamlit Icon
@@ -56,12 +61,12 @@ try:
         #with col2:
 
         # image1 = Image.open('/app/smartbard-api/SmartBard_Logo_Updated.png')
-        image1 = Image.open(Path(assets_path, 'SmartBard_Logo_Updated.png'))
+        image1 = Image.open('SmartBard_Logo_Updated.png')
 
         a = st.image(image1, width= 700)
 
         # image2 = Image.open('/app/smartbard-api/SmartBard_Header_Text.png')
-        image2 = Image.open(Path(assets_path, 'SmartBard_Header_Text.png'))
+        image2 = Image.open('SmartBard_Header_Text.png')
 
 
         b = st.image(image2, width= 700)
@@ -98,7 +103,7 @@ try:
 
         #set page layout to wide and set page title
         # im = Image.open('/app/smartbard-api/SmartBard_Logo_Updated.png')
-        im = Image.open(Path(assets_path, 'SmartBard_Logo_Updated.png'))
+        im = Image.open('SmartBard_Logo_Updated.png')
         st.set_page_config(layout="wide", page_title="SmartBard", page_icon = im)
 
         #Remove the Menu Button and Streamlit Icon
