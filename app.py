@@ -96,15 +96,13 @@ try:
                             limerick = res.json()['limerick']
 
                         # set new state to subpage
-
                         os.environ['STATE'] = (state := 'subpage')
-                        st.write(limerick)
 
                         if res.status_code != 200:
-                            raise Exception('Response not 200')
+                            raise Exception('Bad response code')
 
                     except Exception as e:
-                        st.write(e)
+                        # st.write(e)
                         st.write('Something went wrong. Please try again!')
                         time.sleep(5)
 
@@ -144,49 +142,22 @@ try:
                 rcol_right5, = st.columns([1,1,1,1,1,3,1,1,1,1,1])
 
         if image is not None:
-
+            # print the image
             with col_picture:
                 st.image(image, width=600)
+            # print the limerick
             with col_text:
-                    st.text(
-                '''Some diseases by which we're attacked \nCan be monitored, followed and tracked. \nWhen a clear biomarker \nGets lighter or darker, \nWe're better or worse—that's a fact!''')
-
-
-
-            # Add css to make text bigger
-            st.markdown(
-                        """
-                        <style>
-
-                        [data-testid="stText"] {
-                            font-size: 30px !important;
-                            font-family: Helvetica !important;
-                            line-height: 2;
-                        }
-                        </style>
-                        """,
-                        unsafe_allow_html=True,
-                        )
-
-            with col_text:
-                st.text(limerick)
-                # st.text(
-                # '''Some diseases by which we're attacked \n
-                # Can be monitored, followed and tracked. \n
-                # When a clear biomarker \n
-                # Gets lighter or darker, \n
-                # We're better or worse—that's a fact!'''
-                # )
-
-            #font-family: 'Brush Script MT'
+                    st.text(limerick)
 
             # Add css to make text bigger
             st.markdown(
             """
             <style>
-            text {
-                font-size: 80px !important;
-                font-family: 'Brush Script MT' !important;
+
+            [data-testid="stText"] {
+                font-size: 30px !important;
+                font-family: Helvetica !important;
+                line-height: 2;
             }
             </style>
             """,
