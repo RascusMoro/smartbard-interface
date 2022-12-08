@@ -22,7 +22,7 @@ try:
         ############## ⬇️ HOME PAGE GOES HERE ⬇️ ###############
 
         #set page layout to wide and set page title
-        
+
         im = Image.open(Path(assets_path, 'SmartBard_Logo_Updated.png')) #TODO: change with small icon
         st.set_page_config(layout="centered", page_title="SmartBard", page_icon = im)
 
@@ -145,28 +145,28 @@ try:
 
         if image is not None:
 
-                with col_picture:
-                    st.image(image, width=600)
-                with col_text:
-                        st.text(
-                    '''Some diseases by which we're attacked \nCan be monitored, followed and tracked. \nWhen a clear biomarker \nGets lighter or darker, \nWe're better or worse—that's a fact!''')
+            with col_picture:
+                st.image(image, width=600)
+            with col_text:
+                    st.text(
+                '''Some diseases by which we're attacked \nCan be monitored, followed and tracked. \nWhen a clear biomarker \nGets lighter or darker, \nWe're better or worse—that's a fact!''')
 
 
 
-                # Add css to make text bigger
-                st.markdown(
-                            """
-                            <style>
+            # Add css to make text bigger
+            st.markdown(
+                        """
+                        <style>
 
-                            [data-testid="stText"] {
-                                font-size: 30px !important;
-                                font-family: Helvetica !important;
-                                line-height: 2;
-                            }
-                            </style>
-                            """,
-                            unsafe_allow_html=True,
-                            )
+                        [data-testid="stText"] {
+                            font-size: 30px !important;
+                            font-family: Helvetica !important;
+                            line-height: 2;
+                        }
+                        </style>
+                        """,
+                        unsafe_allow_html=True,
+                        )
 
             with col_text:
                 st.text(limerick)
