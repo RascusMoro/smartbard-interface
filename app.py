@@ -9,7 +9,7 @@ import pandas as pd
 from PIL import Image
 import pickle as pkle
 import streamlit.components.v1 as components
-import cv2
+
 
 
 # img_path = Path(Path.cwd(), 'img_tmp')
@@ -85,7 +85,10 @@ try:
                     shutil.copyfileobj(image, tmp)
                     tmp_path = Path(tmp.name)
                     os.environ['IMG'] = str(tmp_path)
-            #with col_left5:
+
+            button_col_left1, button_col_left2, button_col_left3, button_col_left4, button_col_left5, button_col_center, button_col_right1, button_col_right2, button_col_right3, button_col_right4, button_col_right5 = st.columns([1,1,1,1,1,10,1,1,1,1,1])
+
+            with button_col_center:
                 if st.button('Generate limerick'):
                         os.environ['STATE'] = (state := 'subpage')
                         st.experimental_rerun()
@@ -133,19 +136,19 @@ try:
                     st.image(image, width=600)
 
                 with col_text:
-                        st.text_area("test",
+                        st.text(
                     '''Some diseases by which we're attacked
                 Can be monitored, followed and tracked.
                 When a clear biomarker
                 Gets lighter or darker,
-                We're better or worse—that's a fact!''', height=350, disabled=True, label_visibility='collapsed')
+                We're better or worse—that's a fact!''')
 
 # Add css to make text bigger
                 st.markdown(
                             """
                             <style>
 
-                            textarea {
+                            text {
                                 font-size: 40px !important;
                                 font-family: 'Brush Script MT' !important;
                             }
@@ -162,6 +165,24 @@ try:
             if st.button('Generate another limerick'):
                 os.environ['STATE'] = (state := 'home')
                 st.experimental_rerun()
+# -------------------------------------------------------------------
+    m = st.markdown("""
+<style>
+div.stButton > button:first-child {
+    background-color: #fccf03;
+    color:#012C49;
+    font-family: Helvetica;
+}
+div.stButton > button:hover {
+    background-color: #fccf03;
+    color:#006CC3;
+    font-family: sans-serif
+    }
+</style>""", unsafe_allow_html=True)
+
+
+# -------------------------------------------------------------------
+
 
 except Exception as e:
     os.environ['STATE'] = 'home'
