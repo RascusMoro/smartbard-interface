@@ -25,7 +25,7 @@ try:
 
 
         #set page layout to wide and set page title
-        # im = Image.open('/app/smartbard-api/SmartBard_Logo_Updated.png')
+        #im = Image.open('/app/smartbard-api/SmartBard_Logo_Updated.png')
         im = Image.open('SmartBard_Logo_Updated.png')
         #im = Image.open('/Users/sebastian/code/rcfeord/smartbard-api/frontend/images/SmartBard_Logo_Updated.png')
         st.set_page_config(layout="centered", page_title="SmartBard", page_icon = im)
@@ -58,12 +58,12 @@ try:
 # display the logo and description
         #with col2:
 
-        # image1 = Image.open('/app/smartbard-api/SmartBard_Logo_Updated.png')
+        #image1 = Image.open('/app/smartbard-api/SmartBard_Logo_Updated.png')
         image1 = Image.open('SmartBard_Logo_Updated.png')
 
         a = st.image(image1, width= 700)
 
-        # image2 = Image.open('/app/smartbard-api/SmartBard_Header_Text.png')
+        #image2 = Image.open('/app/smartbard-api/SmartBard_Header_Text.png')
         image2 = Image.open('SmartBard_Header_Text.png')
 
 
@@ -89,7 +89,12 @@ try:
             button_col_left1, button_col_left2, button_col_left3, button_col_left4, button_col_left5, button_col_center, button_col_right1, button_col_right2, button_col_right3, button_col_right4, button_col_right5 = st.columns([1,1,1,1,1,8,1,1,1,1,1])
 
             with button_col_center:
+                #files = {'upload_file': image}
                 if st.button('Generate limerick'):
+                    #if image is not None:
+                        #res = requests.post("https://backend-iy6puqsg3a-ew.a.run.app/", files=files)
+                        #limerick = res.json()['limerick']
+                        #st.write(limerick)
                         os.environ['STATE'] = (state := 'subpage')
                         st.experimental_rerun()
 
@@ -131,23 +136,24 @@ try:
 
         if image is not None:
                 # im = cv2.imread(image)
+
                 with col_picture:
-                    #pyautogui.hotkey('f5')
                     st.image(image, width=600)
-
-
                 with col_text:
                         st.text(
                     '''Some diseases by which we're attacked \nCan be monitored, followed and tracked. \nWhen a clear biomarker \nGets lighter or darker, \nWe're better or worse—that's a fact!''')
+
+
 
 # Add css to make text bigger
                 st.markdown(
                             """
                             <style>
 
-                            text {
-                                font-size: 80px !important;
-                                font-family: 'Brush Script MT' !important;
+                            [data-testid="stText"] {
+                                font-size: 30px !important;
+                                font-family: Helvetica !important;
+                                line-height: 2;
                             }
                             </style>
                             """,
@@ -155,7 +161,7 @@ try:
                             )
 
 
-
+#font-family: 'Brush Script MT'
 
 
         with rcol_center:
