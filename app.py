@@ -9,7 +9,7 @@ import pandas as pd
 from PIL import Image
 import pickle as pkle
 import streamlit.components.v1 as components
-import cv2
+hasattr
 
 
 # img_path = Path(Path.cwd(), 'img_tmp')
