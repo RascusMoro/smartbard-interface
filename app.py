@@ -22,7 +22,8 @@ try:
         ############## ⬇️ HOME PAGE GOES HERE ⬇️ ###############
 
         #set page layout to wide and set page title
-        im = Image.open(Path(assets_path, 'SmartBard_Logo_Updated.png'))
+        
+        im = Image.open(Path(assets_path, 'SmartBard_Logo_Updated.png')) #TODO: change with small icon
         st.set_page_config(layout="centered", page_title="SmartBard", page_icon = im)
 
         #Remove the Menu Button and Streamlit Icon
@@ -47,6 +48,7 @@ try:
         a = st.image(image1, width= 700)
 
         image2 = Image.open(Path(assets_path, 'SmartBard_Header_Text.png'))
+
         b = st.image(image2, width= 700)
 
         if image := st.file_uploader('', key=2, label_visibility='collapsed'):
@@ -72,6 +74,7 @@ try:
                         button_col_right5 = st.columns([1,1,1,1,1,8,1,1,1,1,1])
 
             with button_col_center:
+                #files = {'upload_file': image}
                 if st.button('Generate limerick'):
 
                     # show progress bar #TODO: fix this!
@@ -93,6 +96,7 @@ try:
                             limerick = res.json()['limerick']
 
                         # set new state to subpage
+
                         os.environ['STATE'] = (state := 'subpage')
                         st.write(limerick)
 
@@ -140,10 +144,29 @@ try:
                 rcol_right5, = st.columns([1,1,1,1,1,3,1,1,1,1,1])
 
         if image is not None:
-            # im = cv2.imread(image)
-            with col_picture:
-                #pyautogui.hotkey('f5')
-                st.image(image, width=600)
+
+                with col_picture:
+                    st.image(image, width=600)
+                with col_text:
+                        st.text(
+                    '''Some diseases by which we're attacked \nCan be monitored, followed and tracked. \nWhen a clear biomarker \nGets lighter or darker, \nWe're better or worse—that's a fact!''')
+
+
+
+                # Add css to make text bigger
+                st.markdown(
+                            """
+                            <style>
+
+                            [data-testid="stText"] {
+                                font-size: 30px !important;
+                                font-family: Helvetica !important;
+                                line-height: 2;
+                            }
+                            </style>
+                            """,
+                            unsafe_allow_html=True,
+                            )
 
             with col_text:
                 st.text(limerick)
@@ -155,7 +178,7 @@ try:
                 # We're better or worse—that's a fact!'''
                 # )
 
-
+            #font-family: 'Brush Script MT'
 
             # Add css to make text bigger
             st.markdown(
