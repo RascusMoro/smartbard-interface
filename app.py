@@ -5,9 +5,12 @@ from tempfile import NamedTemporaryFile
 import os
 import requests
 from PIL import Image
+import time
+import base64
 
 assets_path = 'assets'
 img_path = 'img_tmp'
+limerick = ''
 
 state = os.getenv('STATE')
 if state == None:
@@ -62,6 +65,7 @@ try:
 
                 st.write(" ")
                 st.write(" ")
+
             button_col_left1, button_col_left2, button_col_left3, button_col_left4, \
                 button_col_left5, button_col_center, button_col_right1, button_col_right2, \
                     button_col_right3, button_col_right4, \
@@ -69,8 +73,38 @@ try:
 
             with button_col_center:
                 if st.button('Generate limerick'):
+
+                    # show progress bar #TODO: fix this!
+                    file_ = open(Path(assets_path, "progress_bar.gif"), "rb")
+                    contents = file_.read()
+                    data_url = base64.b64encode(contents).decode("utf-8")
+                    file_.close()
+                    st.markdown(
+                        f'<img src="data:image/gif;base64,{data_url}">',
+                        unsafe_allow_html=True,
+                    )
+
+                    file = open(tmp_path, 'rb')
+                    files = {'upload_file': file}
+                    try:
+                        # call the API
+                        if file is not None:
+                            res = requests.post("https://backend-iy6puqsg3a-ew.a.run.app/generate", files=files)
+                            limerick = res.json()['limerick']
+
+                        # set new state to subpage
                         os.environ['STATE'] = (state := 'subpage')
-                        st.experimental_rerun()
+                        st.write(limerick)
+
+                        if res.status_code != 200:
+                            raise Exception('Response not 200')
+
+                    except Exception as e:
+                        st.write(e)
+                        st.write('Something went wrong. Please try again!')
+                        time.sleep(5)
+
+                    st.experimental_rerun()
 
     else:
         image = os.getenv('IMG')
@@ -112,31 +146,41 @@ try:
                 st.image(image, width=600)
 
             with col_text:
-                    st.text(
-                '''Some diseases by which we're attacked \n
-                Can be monitored, followed and tracked. \n
-                When a clear biomarker \n
-                Gets lighter or darker, \n
-                We're better or worse—that's a fact!''')
+                st.text(limerick)
+                # st.text(
+                # '''Some diseases by which we're attacked \n
+                # Can be monitored, followed and tracked. \n
+                # When a clear biomarker \n
+                # Gets lighter or darker, \n
+                # We're better or worse—that's a fact!'''
+                # )
+
+
 
             # Add css to make text bigger
             st.markdown(
-                        """
-                        <style>
-                        text {
-                            font-size: 80px !important;
-                            font-family: 'Brush Script MT' !important;
-                        }
-                        </style>
-                        """,
-                        unsafe_allow_html=True,
-                        )
+            """
+            <style>
+            text {
+                font-size: 80px !important;
+                font-family: 'Brush Script MT' !important;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True,
+            )
 
         with rcol_center:
             st.write(" ")
             st.write(" ")
             if st.button('Generate another limerick'):
                 os.environ['STATE'] = (state := 'home')
+
+                # delete all tmp images
+                for filename in os.listdir(img_path):
+                    file_path = os.path.join(img_path, filename)
+                    os.unlink(file_path)
+
                 st.experimental_rerun()
 
 # -------------------------------------------------------------------
