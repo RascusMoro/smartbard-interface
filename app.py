@@ -10,8 +10,6 @@ from PIL import Image
 import pickle as pkle
 import streamlit.components.v1 as components
 
-
-
 # img_path = Path(Path.cwd(), 'img_tmp')
 # img_path = '/app/smartbard-api/img_tmp'
 img_path = 'img_tmp'
