@@ -10,7 +10,6 @@ import base64
 
 assets_path = 'assets'
 img_path = 'img_tmp'
-limerick = ''
 
 state = os.getenv('STATE')
 if state == None:
@@ -93,7 +92,7 @@ try:
                         # call the API
                         if file is not None:
                             res = requests.post("https://backend-iy6puqsg3a-ew.a.run.app/generate", files=files)
-                            limerick = res.json()['limerick']
+                            os.environ['LIMERICK'] = (limerick := res.json()['limerick'])
 
                         # set new state to subpage
                         os.environ['STATE'] = (state := 'subpage')
@@ -110,6 +109,7 @@ try:
 
     else:
         image = os.getenv('IMG')
+        limerick = os.getenv('LIMERICK')
 
         ############## ⬇️ SECOND PAGE GOES HERE ⬇️ ###############
 
@@ -147,7 +147,7 @@ try:
                 st.image(image, width=600)
             # print the limerick
             with col_text:
-                    st.text(limerick)
+                st.text(limerick)
 
             # Add css to make text bigger
             st.markdown(
