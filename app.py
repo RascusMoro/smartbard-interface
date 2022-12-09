@@ -37,8 +37,19 @@ try:
         # hide fullsize button
         hide_img_fs = '''
             <style>
-            button[title="View fullscreen"]{
-                visibility: hidden;}
+                button[title="View fullscreen"] {
+                    visibility: hidden;
+                }
+
+                .css-1j77i4l {
+                    display: flex;
+                    justify-content: center;
+                }
+
+                .css-keje6w {
+                    display: flex;
+                    align-items: center;
+                }
             </style>
             '''
         st.markdown(hide_img_fs, unsafe_allow_html=True)
@@ -76,13 +87,15 @@ try:
                 #files = {'upload_file': image}
                 if st.button('Generate limerick'):
 
-                    # show progress bar #TODO: fix this!
-                    file_ = open(Path(assets_path, "progress_bar.gif"), "rb")
+                    # show progress bar
+                    # #TODO: fix this!
+                    file_ = open(Path(assets_path, "loading.gif"), "rb")
                     contents = file_.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
                     file_.close()
+
                     st.markdown(
-                        f'<img src="data:image/gif;base64,{data_url}">',
+                        f'<img style="width: 50px;" src="data:image/gif;base64,{data_url}">',
                         unsafe_allow_html=True,
                     )
 
@@ -100,12 +113,14 @@ try:
                         if res.status_code != 200:
                             raise Exception('Bad response code')
 
+
                     except Exception as e:
                         # st.write(e)
                         st.write('Something went wrong. Please try again!')
                         time.sleep(5)
 
                     st.experimental_rerun()
+
 
     else:
         image = os.getenv('IMG')
