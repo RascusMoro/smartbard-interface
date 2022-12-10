@@ -1,13 +1,11 @@
 import streamlit as st
-import shutil
 from pathlib import Path
-from tempfile import NamedTemporaryFile
-import os
-import requests
 from PIL import Image
-import time
 import base64
+import requests
+import time
 
+# set paths
 assets_path = 'assets'
 img_path = 'img_tmp'
 
@@ -16,21 +14,26 @@ icon = Image.open(Path(assets_path, 'feather_with_background.png'))
 logo = Image.open(Path(assets_path, 'SmartBard_Logo_Updated.png'))
 header = Image.open(Path(assets_path, 'SmartBard_Header_Text.png'))
 
+# set default states
+STATE_DEFAULT = 'home'
+IMG_DEFAULT = None
+LIMERICK_DEFAULT = ''
+LAYOUT_DEFAULT = 'centered'
+
+# initialize session states
 if 'state' not in st.session_state:
-    st.session_state.state = 'home'
-
+    st.session_state.state = STATE_DEFAULT
 if 'img' not in st.session_state:
-    st.session_state.img = None
-
+    st.session_state.img = IMG_DEFAULT
 if 'limerick' not in st.session_state:
-    st.session_state.limerick = ''
-
+    st.session_state.limerick = LIMERICK_DEFAULT
 if 'layout' not in st.session_state:
-    st.session_state.layout = 'centered'
+    st.session_state.layout = LAYOUT_DEFAULT
 
+# set streamlit page config
 st.set_page_config(layout=st.session_state.layout, page_title="SmartBard", page_icon=icon)
 
-#Remove the Menu Button and Streamlit Icon
+#Remove Menu Button and Streamlit Icon
 hide_default_format = """
     <style>
         MainMenu {visibility: hidden;}
@@ -71,10 +74,10 @@ st.markdown(remove_w_s, unsafe_allow_html=True)
 
 try:
     if st.session_state.state == 'home':
-
         ############## ⬇️ HOME PAGE GOES HERE ⬇️ ###############
-        st.image(logo, width= 700)
-        st.image(header, width= 700)
+
+        st.image(logo, width= 700, use_column_width=True)
+        st.image(header, width= 700, use_column_width=True)
 
         if image := st.file_uploader('', type=['png', 'jpg', 'jpeg'], label_visibility='collapsed'):
 
@@ -100,23 +103,23 @@ try:
                         unsafe_allow_html=True,
                     )
 
+                    # save image
                     st.session_state.img = image
+                    # get image content
                     file = image.getbuffer()
                     files = {'upload_file': file}
+                    # call the API
                     try:
-                        # call the API
                         if file is not None:
-                            # res = requests.post("https://backend-iy6puqsg3a-ew.a.run.app/generate", files=files)
-                            # st.session_state.limerick = res.json()['limerick']
-                            st.session_state.limerick = 'limerick'
+                            res = requests.post("https://backend-iy6puqsg3a-ew.a.run.app/generate", files=files)
+                            st.session_state.limerick = res.json()['limerick']
 
                         # set new state to subpage and layout to wide
                         st.session_state.state = 'subpage'
                         st.session_state.layout = 'wide'
 
-                        # if res.status_code != 200:
-                        #     raise Exception('Bad response code')
-
+                        if res.status_code != 200:
+                            raise Exception('Bad response code')
 
                     except Exception as e:
                         # st.write(e)
@@ -125,8 +128,8 @@ try:
 
                     st.experimental_rerun()
 
-
     else:
+        # recall image and limerick from previous page
         image = st.session_state.img
         limerick = st.session_state.limerick
 
@@ -137,27 +140,12 @@ try:
         rcol_left, rcol_center, rcol_right = st.columns([5,3,5])
 
         if image is not None:
-            # print the image
+            # print image
             with col_picture:
                 st.image(image, width=600)
-            # print the limerick
+            # print limerick
             with col_text:
                 st.text(limerick)
-
-            # Add css to make text bigger
-            st.markdown(
-            """
-            <style>
-
-            [data-testid="stText"] {
-                font-size: 30px !important;
-                font-family: Helvetica !important;
-                line-height: 2;
-            }
-            </style>
-            """,
-            unsafe_allow_html=True,
-            )
 
         with rcol_center:
             st.write(" ")
@@ -168,39 +156,54 @@ try:
                 st.session_state.state = 'home'
                 st.session_state.layout = 'centered'
 
-
                 st.experimental_rerun()
 
 # -------------------------------------------------------------------
 
-    m = st.markdown("""
-    <style>
+    # make text bigger
+    st.markdown(
+        """
+            <style>
+                [data-testid="stText"] {
+                    font-size: 28px !important;
+                    font-family: Palatino, Garamond, Helvetica !important;
+                    line-height: 1.8;
+                }
+            </style>
+        """,
+        unsafe_allow_html=True
+    )
 
-    div.stButton > button:first-child {
-        background-color: #fccf03;
-        color:#012C49;
-        font-family: Helvetica;
-        width: 300px;
-        height: 40px;
-    }
-
-    div.stButton > button:hover {
-        background-color: #fccf03;
-        color:#006CC3;
-        font-family: sans-serif
-        }
-
-    div.stText {
-        text-align: center;
-        font-size: 300px !important;
-    }
-
-    </style>""", unsafe_allow_html=True)
-
-# -------------------------------------------------------------------
+    st.markdown(
+        """
+            <style>
+                div.stButton > button:first-child {
+                    background-color: #fccf03;
+                    color:#012C49;
+                    font-family: Helvetica;
+                    width: 300px;
+                    height: 40px;
+                }
+                div.stButton > button:hover {
+                    background-color: #fccf03;
+                    color:#006CC3;
+                    font-family: sans-serif
+                    }
+                div.stText {
+                    text-align: center;
+                    font-size: 300px !important;
+                }
+            </style>
+        """,
+        unsafe_allow_html=True
+    )
 
 except Exception as e:
-    st.session_state.state = 'home'
+    # reinitialize session states
+    st.session_state.state = STATE_DEFAULT
+    st.session_state.img = IMG_DEFAULT
+    st.session_state.limerick = LIMERICK_DEFAULT
+    st.session_state.layout = LAYOUT_DEFAULT
     try:
         st.experimental_rerun()
     except:
@@ -208,5 +211,3 @@ except Exception as e:
         st.error('A fatal error has occurred. Please reload the page.', icon="😱")
 finally:
     pass
-
-####
