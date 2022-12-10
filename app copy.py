@@ -12,7 +12,7 @@ assets_path = 'assets'
 img_path = 'img_tmp'
 
 # set images
-icon = Image.open(Path(assets_path, 'feather_with_background.png')) #TODO: change with small icon
+icon = Image.open(Path(assets_path, 'feather_with_background.png'))
 logo = Image.open(Path(assets_path, 'SmartBard_Logo_Updated.png'))
 header = Image.open(Path(assets_path, 'SmartBard_Header_Text.png'))
 
@@ -22,13 +22,13 @@ if 'state' not in st.session_state:
 if 'img' not in st.session_state:
     st.session_state.img = None
 
-if 'img' not in st.session_state:
+if 'limerick' not in st.session_state:
     st.session_state.limerick = ''
 
 if 'layout' not in st.session_state:
     st.session_state.layout = 'centered'
 
-st.set_page_config(layout=st.session_state.layout, page_title="SmartBard", page_icon = icon)
+st.set_page_config(layout=st.session_state.layout, page_title="SmartBard", page_icon=icon)
 
 #Remove the Menu Button and Streamlit Icon
 hide_default_format = """
@@ -45,12 +45,10 @@ hide_img_fs = '''
         button[title="View fullscreen"] {
             visibility: hidden;
         }
-
         .css-1j77i4l {
             display: flex;
             justify-content: center;
         }
-
         .css-keje6w {
             display: flex;
             align-items: center;
@@ -59,16 +57,10 @@ hide_img_fs = '''
     '''
 st.markdown(hide_img_fs, unsafe_allow_html=True)
 
-
 # Remove whitespace from the top of the page
 remove_w_s = '''
         <style>
-               .css-18e3th9 {
-                    padding-top: 0rem;
-                    padding-bottom: 0rem;
-                    padding-left: 5rem;
-                    padding-right: 5rem;
-                }
+                div.block-container {padding-top:1rem;}
         </style>
         '''
 st.markdown(remove_w_s, unsafe_allow_html=True)
@@ -81,38 +73,39 @@ try:
         st.image(logo, width= 700)
         st.image(header, width= 700)
 
-        if image := st.file_uploader('', key=2, label_visibility='collapsed'):
+        if image := st.file_uploader('', type=['png', 'jpg', 'jpeg'], label_visibility='collapsed'):
+
+            file = image.file
+
             col_left, col_center, col_right = st.columns([5,3,5])
 
             with col_center:
                 st.image(image)
-
-                suffix = Path(image.name).suffix
-                with NamedTemporaryFile(delete=False, suffix=suffix, dir=img_path) as tmp:
-                    shutil.copyfileobj(image, tmp)
-                    tmp_path = Path(tmp.name)
-                    st.session_state.img = str(tmp_path)
-
                 st.write(" ")
                 st.write(" ")
 
             button_col_left, button_col_center, button_col_right = st.columns([5,8,5])
 
             with button_col_center:
+
                 if st.button('Generate limerick'):
 
                     # show spinning wheel
-                    file_ = open(Path(assets_path, "loading.gif"), "rb")
-                    contents = file_.read()
-                    data_url = base64.b64encode(contents).decode("utf-8")
-                    file_.close()
-
+                    with open(Path(assets_path, "loading.gif"), "rb") as f:
+                        contents = f.read()
+                        data_url = base64.b64encode(contents).decode("utf-8")
                     st.markdown(
                         f'<img style="width: 50px;" src="data:image/gif;base64,{data_url}">',
                         unsafe_allow_html=True,
                     )
 
-                    file = open(tmp_path, 'rb')
+                    suffix = Path(image.name).suffix
+                    with NamedTemporaryFile(delete=False, suffix=suffix, dir=img_path) as tmp:
+                        shutil.copyfileobj(image, tmp)
+                        tmp_path = Path(tmp.name)
+                        st.session_state.img = str(tmp_path)
+
+                    file = open(Path(tmp_path), 'rb')
                     files = {'upload_file': file}
                     try:
                         # call the API
@@ -132,7 +125,7 @@ try:
                     except Exception as e:
                         # st.write(e)
                         st.write('Something went wrong. Please try again!')
-                        time.sleep(5)
+                        time.sleep(3)
 
                     st.experimental_rerun()
 
@@ -142,7 +135,7 @@ try:
         limerick = st.session_state.limerick
 
         ############## ⬇️ SECOND PAGE GOES HERE ⬇️ ###############
-        st.image(logo, width= 250)
+        st.image(logo, width= 200)
 
         col_picture, col_text = st.columns(2)
         rcol_left, rcol_center, rcol_right = st.columns([5,3,5])
