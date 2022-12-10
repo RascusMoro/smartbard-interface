@@ -11,6 +11,9 @@ import base64
 assets_path = 'assets'
 img_path = 'img_tmp'
 
+# set icon image
+im = Image.open(Path(assets_path, 'SmartBard_Logo_Updated.png')) #TODO: change with small icon
+
 if 'state' not in st.session_state:
     st.session_state.state = 'home'
 
@@ -20,15 +23,15 @@ if 'img' not in st.session_state:
 if 'img' not in st.session_state:
     st.session_state.limerick = ''
 
+if 'layout' not in st.session_state:
+    st.session_state.layout = 'centered'
+
+st.set_page_config(layout=st.session_state.layout, page_title="SmartBard", page_icon = im)
+
 try:
     if st.session_state.state == 'home':
 
         ############## ⬇️ HOME PAGE GOES HERE ⬇️ ###############
-
-        #set page layout to wide and set page title
-
-        im = Image.open(Path(assets_path, 'SmartBard_Logo_Updated.png')) #TODO: change with small icon
-        st.set_page_config(layout="centered", page_title="SmartBard", page_icon = im)
 
         #Remove the Menu Button and Streamlit Icon
         hide_default_format = """
@@ -93,7 +96,6 @@ try:
                 if st.button('Generate limerick'):
 
                     # show progress bar
-                    # #TODO: fix this!
                     file_ = open(Path(assets_path, "loading.gif"), "rb")
                     contents = file_.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
@@ -109,14 +111,16 @@ try:
                     try:
                         # call the API
                         if file is not None:
-                            res = requests.post("https://backend-iy6puqsg3a-ew.a.run.app/generate", files=files)
-                            st.session_state.limerick = res.json()['limerick']
+                            # res = requests.post("https://backend-iy6puqsg3a-ew.a.run.app/generate", files=files)
+                            # st.session_state.limerick = res.json()['limerick']
+                            st.session_state.limerick = 'limerick'
 
-                        # set new state to subpage
-                        st.session_state.state = (state := 'subpage')
+                        # set new state to subpage and layout to wide
+                        st.session_state.state = 'subpage'
+                        st.session_state.layout = 'wide'
 
-                        if res.status_code != 200:
-                            raise Exception('Bad response code')
+                        # if res.status_code != 200:
+                        #     raise Exception('Bad response code')
 
 
                     except Exception as e:
@@ -132,11 +136,6 @@ try:
         limerick = st.session_state.limerick
 
         ############## ⬇️ SECOND PAGE GOES HERE ⬇️ ###############
-
-
-        #set page layout to wide and set page title
-        im = Image.open(Path(assets_path, 'SmartBard_Logo_Updated.png'))
-        st.set_page_config(layout="wide", page_title="SmartBard", page_icon = im)
 
         #Remove the Menu Button and Streamlit Icon
         hide_default_format = """
@@ -187,8 +186,11 @@ try:
         with rcol_center:
             st.write(" ")
             st.write(" ")
+
             if st.button('Generate another limerick'):
+                # set new state to home and layout to centered
                 st.session_state.state = 'home'
+                st.session_state.layout = 'centered'
 
                 # delete all tmp images
                 for filename in os.listdir(img_path):
@@ -230,7 +232,14 @@ except Exception as e:
     try:
         st.experimental_rerun()
     except:
-        # st.exception(e)
+        st.exception(e)
         st.error('A fatal error has occurred. Please reload the page.', icon="😱")
+finally:
+    # always empty img folder #FIXME: not working!
+    # for filename in os.listdir(img_path):
+    #     file_path = os.path.join(img_path, filename)
+    #     os.unlink(file_path)
+    pass
+
 
 ####
