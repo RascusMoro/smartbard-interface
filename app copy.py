@@ -11,8 +11,10 @@ import base64
 assets_path = 'assets'
 img_path = 'img_tmp'
 
-# set icon image
-im = Image.open(Path(assets_path, 'SmartBard_Logo_Updated.png')) #TODO: change with small icon
+# set images
+icon = Image.open(Path(assets_path, 'feather_with_background.png')) #TODO: change with small icon
+logo = Image.open(Path(assets_path, 'SmartBard_Logo_Updated.png'))
+header = Image.open(Path(assets_path, 'SmartBard_Header_Text.png'))
 
 if 'state' not in st.session_state:
     st.session_state.state = 'home'
@@ -26,53 +28,61 @@ if 'img' not in st.session_state:
 if 'layout' not in st.session_state:
     st.session_state.layout = 'centered'
 
-st.set_page_config(layout=st.session_state.layout, page_title="SmartBard", page_icon = im)
+st.set_page_config(layout=st.session_state.layout, page_title="SmartBard", page_icon = icon)
+
+#Remove the Menu Button and Streamlit Icon
+hide_default_format = """
+    <style>
+        MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+    </style>
+    """
+st.markdown(hide_default_format, unsafe_allow_html=True)
+
+# hide fullsize button
+hide_img_fs = '''
+    <style>
+        button[title="View fullscreen"] {
+            visibility: hidden;
+        }
+
+        .css-1j77i4l {
+            display: flex;
+            justify-content: center;
+        }
+
+        .css-keje6w {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+    '''
+st.markdown(hide_img_fs, unsafe_allow_html=True)
+
+
+# Remove whitespace from the top of the page
+remove_w_s = '''
+        <style>
+               .css-18e3th9 {
+                    padding-top: 0rem;
+                    padding-bottom: 0rem;
+                    padding-left: 5rem;
+                    padding-right: 5rem;
+                }
+        </style>
+        '''
+st.markdown(remove_w_s, unsafe_allow_html=True)
+
 
 try:
     if st.session_state.state == 'home':
 
         ############## ⬇️ HOME PAGE GOES HERE ⬇️ ###############
-
-        #Remove the Menu Button and Streamlit Icon
-        hide_default_format = """
-            <style>
-            #MainMenu {visibility: visible; }
-            footer {visibility: hidden;}
-            </style>
-            """
-        st.markdown(hide_default_format, unsafe_allow_html=True)
-
-        # hide fullsize button
-        hide_img_fs = '''
-            <style>
-                button[title="View fullscreen"] {
-                    visibility: hidden;
-                }
-
-                .css-1j77i4l {
-                    display: flex;
-                    justify-content: center;
-                }
-
-                .css-keje6w {
-                    display: flex;
-                    align-items: center;
-                }
-            </style>
-            '''
-        st.markdown(hide_img_fs, unsafe_allow_html=True)
-
-        image1 = Image.open(Path(assets_path, 'SmartBard_Logo_Updated.png'))
-        a = st.image(image1, width= 700)
-
-        image2 = Image.open(Path(assets_path, 'SmartBard_Header_Text.png'))
-
-        b = st.image(image2, width= 700)
+        st.image(logo, width= 700)
+        st.image(header, width= 700)
 
         if image := st.file_uploader('', key=2, label_visibility='collapsed'):
-            col_left1, col_left2, col_left3, col_left4, col_left5, \
-                col_center, col_right1, col_right2, col_right3, col_right4, \
-                    col_right5 = st.columns([1,1,1,1,1,3,1,1,1,1,1])
+            col_left, col_center, col_right = st.columns([5,3,5])
 
             with col_center:
                 st.image(image)
@@ -86,16 +96,12 @@ try:
                 st.write(" ")
                 st.write(" ")
 
-            button_col_left1, button_col_left2, button_col_left3, button_col_left4, \
-                button_col_left5, button_col_center, button_col_right1, button_col_right2, \
-                    button_col_right3, button_col_right4, \
-                        button_col_right5 = st.columns([1,1,1,1,1,8,1,1,1,1,1])
+            button_col_left, button_col_center, button_col_right = st.columns([5,8,5])
 
             with button_col_center:
-                #files = {'upload_file': image}
                 if st.button('Generate limerick'):
 
-                    # show progress bar
+                    # show spinning wheel
                     file_ = open(Path(assets_path, "loading.gif"), "rb")
                     contents = file_.read()
                     data_url = base64.b64encode(contents).decode("utf-8")
@@ -136,29 +142,10 @@ try:
         limerick = st.session_state.limerick
 
         ############## ⬇️ SECOND PAGE GOES HERE ⬇️ ###############
-
-        #Remove the Menu Button and Streamlit Icon
-        hide_default_format = """
-            <style>
-            #MainMenu {visibility: visible; }
-            footer {visibility: hidden;}
-            </style>
-            """
-        st.markdown(hide_default_format, unsafe_allow_html=True)
-
-        # hide fullsize button
-        hide_img_fs = '''
-            <style>
-            button[title="View fullscreen"]{
-                visibility: hidden;}
-            </style>
-            '''
-        st.markdown(hide_img_fs, unsafe_allow_html=True)
+        st.image(logo, width= 250)
 
         col_picture, col_text = st.columns(2)
-        rcol_left1, rcol_left2, rcol_left3, rcol_left4, rcol_left5, \
-            rcol_center, rcol_right1, rcol_right2, rcol_right3, rcol_right4, \
-                rcol_right5, = st.columns([1,1,1,1,1,3,1,1,1,1,1])
+        rcol_left, rcol_center, rcol_right = st.columns([5,3,5])
 
         if image is not None:
             # print the image
