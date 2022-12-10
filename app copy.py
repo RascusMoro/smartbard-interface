@@ -76,8 +76,8 @@ try:
     if st.session_state.state == 'home':
         ############## ⬇️ HOME PAGE GOES HERE ⬇️ ###############
 
-        st.image(logo, width= 700, use_column_width=True)
-        st.image(header, width= 700, use_column_width=True)
+        st.image(logo, width= 700, use_column_width='auto')
+        st.image(header, width= 700, use_column_width='auto')
 
         if image := st.file_uploader('', type=['png', 'jpg', 'jpeg'], label_visibility='collapsed'):
 
@@ -142,7 +142,7 @@ try:
         if image is not None:
             # print image
             with col_picture:
-                st.image(image, width=600)
+                st.image(image, width=600, use_column_width='auto')
             # print limerick
             with col_text:
                 st.text(limerick)
@@ -165,7 +165,7 @@ try:
         """
             <style>
                 [data-testid="stText"] {
-                    font-size: 28px !important;
+                    font-size: clamp(1rem, 2vw, 5rem);
                     font-family: Palatino, Garamond, Helvetica !important;
                     line-height: 1.8;
                 }
