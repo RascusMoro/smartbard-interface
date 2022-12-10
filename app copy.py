@@ -60,7 +60,10 @@ st.markdown(hide_img_fs, unsafe_allow_html=True)
 # Remove whitespace from the top of the page
 remove_w_s = '''
         <style>
-                div.block-container {padding-top:1rem;}
+                div.block-container {
+                    padding-top:1rem;
+                    padding-bottom:0rem;
+                }
         </style>
         '''
 st.markdown(remove_w_s, unsafe_allow_html=True)
@@ -74,8 +77,6 @@ try:
         st.image(header, width= 700)
 
         if image := st.file_uploader('', type=['png', 'jpg', 'jpeg'], label_visibility='collapsed'):
-
-            file = image.file
 
             col_left, col_center, col_right = st.columns([5,3,5])
 
@@ -99,13 +100,8 @@ try:
                         unsafe_allow_html=True,
                     )
 
-                    suffix = Path(image.name).suffix
-                    with NamedTemporaryFile(delete=False, suffix=suffix, dir=img_path) as tmp:
-                        shutil.copyfileobj(image, tmp)
-                        tmp_path = Path(tmp.name)
-                        st.session_state.img = str(tmp_path)
-
-                    file = open(Path(tmp_path), 'rb')
+                    st.session_state.img = image
+                    file = image.getbuffer()
                     files = {'upload_file': file}
                     try:
                         # call the API
@@ -172,10 +168,6 @@ try:
                 st.session_state.state = 'home'
                 st.session_state.layout = 'centered'
 
-                # delete all tmp images
-                for filename in os.listdir(img_path):
-                    file_path = os.path.join(img_path, filename)
-                    os.unlink(file_path)
 
                 st.experimental_rerun()
 
@@ -215,11 +207,6 @@ except Exception as e:
         st.exception(e)
         st.error('A fatal error has occurred. Please reload the page.', icon="😱")
 finally:
-    # always empty img folder #FIXME: not working!
-    # for filename in os.listdir(img_path):
-    #     file_path = os.path.join(img_path, filename)
-    #     os.unlink(file_path)
     pass
-
 
 ####
