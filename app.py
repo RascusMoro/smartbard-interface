@@ -36,7 +36,7 @@ st.set_page_config(layout=st.session_state.layout, page_title="SmartBard", page_
 #Remove Menu Button and Streamlit Icon
 hide_default_format = """
     <style>
-        MainMenu {visibility: hidden;}
+        #MainMenu {visibility: hidden;}
         footer {visibility: hidden;}
     </style>
     """
@@ -166,8 +166,8 @@ try:
             <style>
                 [data-testid="stText"] {
                     font-size: clamp(1rem, 2vw, 5rem);
-                    font-family: Palatino, Garamond, Helvetica !important;
-                    line-height: 1.8;
+                    font-family: Helvetica, Palatino, Garamond !important;
+                    line-height: 2;
                 }
             </style>
         """,
