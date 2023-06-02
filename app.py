@@ -123,8 +123,17 @@ try:
 
                     except Exception as e:
                         # st.write(e)
-                        st.write('Something went wrong. Please try again!')
-                        time.sleep(3)
+                        # st.write('Something went wrong. Please try again!')
+                        # time.sleep(3)
+                        st.session_state.limerick = ("The backend is offline\n"
+                                                     "So here's a fake line\n"
+                                                     "That doesn't make sense"
+                                                     "with the pic you just sent"
+                                                     "But I hope that with this you'll be fine")
+
+                        # set new state to subpage and layout to wide
+                        st.session_state.state = 'subpage'
+                        st.session_state.layout = 'wide'
 
                     st.experimental_rerun()
 
