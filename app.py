@@ -127,8 +127,8 @@ try:
                         # time.sleep(3)
                         st.session_state.limerick = ("The backend is offline\n"
                                                      "So here's a fake line\n"
-                                                     "That doesn't make sense"
-                                                     "with the pic you just sent"
+                                                     "That doesn't make sense\n"
+                                                     "With the pic you just sent\n"
                                                      "But I hope that with this you'll be fine")
 
                         # set new state to subpage and layout to wide
